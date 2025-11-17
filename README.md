@@ -347,7 +347,7 @@ Both functions:
 
 ---
 
-## Iterative (`estimator_alt_it.py`)
+## Iterative (`laia_maps_alt_it.py`)
 
 The LAIA direction and amplitudes can be obtained directly from a **single**
 evaluation of the maps at `NSIDE = 32`, as implemented in `laia_maps.py`:
@@ -388,3 +388,92 @@ In practice, tests show that:
 
 ```
 
+```
+## What the script laia_maps_alt_it.py does
+
+The key pieces are:
+
+- `compute_chi2_for_pixels(...)`  
+  Computes the χ²-like map for a *given* list of HEALPix pixels at a chosen NSIDE, using:
+  - the 3D orientation vectors `g` (here already rotated: `g_rot_*`),
+  - the position vectors `n`,
+  - an error map giving the per-direction uncertainty σ(𝑛̂),
+  - and chunked processing over galaxies for memory efficiency.
+
+- `run_estimator_g_rot(...)`  
+  1. Reads a simulation/observed catalog (FITS) containing `g_rot_x`, `g_rot_y`, `g_rot_z`
+     and `n_x`, `n_y`, `n_z`.  
+  2. Builds a full χ² map at `nside1` (default 32) over the (half-)sky, and optionally
+     saves/plots it.  
+  3. Performs the iterative refinement through higher NSIDE values (defaults:
+     32 → 1024 → 4096 → 16384 → 32768), always keeping:
+        - the max pixel,
+        - its 8 neighbours,
+        - the χ² value at the max, and
+        - the corresponding LAIA angle θ_IA = α(g_max) via `recover_alpha`.  
+  4. Writes:
+        - a FITS map with the coarse χ² field at NSIDE = 32; and
+        - a FITS table summarising the iterative results at each NSIDE.
+
+At the bottom of the file there is an example driver loop that:
+
+- defines `input_dir` and `output_dir` (you should replace these with your own paths),
+- reads an error map (e.g. `shape_catalog_error.fits`),
+- loops over a set of simulations,
+- calls `run_estimator_g_rot(...)` for each simulation, and
+- stores the returned maps and iterative summaries in memory (in the `resultados_g_rot` list).
+
+You are encouraged to adapt this part to your own directory structure and file naming scheme.
+
+### Running the iterative estimator
+
+1. Prepare a HEALPix error map, for example:
+
+   - `shape_catalog_error.fits` (NSIDE chosen by you), containing σ(𝑛̂) in radians
+     or in the same units used in the main estimator.  
+   - The code assumes NESTED ordering for the error map.
+
+2. Prepare one or more FITS catalogs with columns:
+
+   - `n_x`, `n_y`, `n_z`  – unit vectors pointing to each galaxy (ICRS frame in the paper);  
+   - `g_rot_x`, `g_rot_y`, `g_rot_z` – rotated orientation vectors in the tangent plane;  
+   - optionally, any other columns you might want for book-keeping (they are ignored here).
+
+3. Edit the bottom of `estimator_alt_it.py`:
+
+   - Set:
+     ```python
+     input_dir  = "path/to/your/simulations"
+     output_dir = "path/to/your/output"
+     error_map  = hp.read_map("path/to/your_error_map.fits", nest=True)
+     ```
+   - Adjust the loops over simulations, e.g.:
+     ```python
+     for j in range(N_sims):
+         fits_path = os.path.join(input_dir, f"simulation_d_xyz_t_0_sim_{j}.fits")
+         chi2_map_rot, iterative_results = run_estimator_g_rot(
+             fits_path,
+             error_map,
+             nside1=32,
+             nside2=1024,
+             nside3=4096,
+             nside4=16384,
+             nside5=32768,
+             chunk_size=50000,
+             show_plot=False,
+             output_dir=output_dir,
+         )
+     ```
+
+4. Run:
+
+   ```bash
+   python estimator_alt_it.py
+   ```
+
+5. Inspect the outputs in `output_dir`:
+
+   - `*_g_rot_chi2.fits` – NSIDE = 32 χ² map;  
+   - `*_g_rot_iterative_results.fits` – table with one row per NSIDE, including the
+     best pixel, χ² value, and θ_IA.
+```
