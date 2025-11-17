@@ -478,6 +478,7 @@ You are encouraged to adapt this part to your own directory structure and file n
      best pixel, χ² value, and θ_IA.
 ```
 
+```
 # LAIA Mock Generator 
 
 This script generates mock catalogs of galaxy orientation vectors for testing the
@@ -745,3 +746,4 @@ a per-galaxy `sigma` column in the estimator, you can:
 If you run into any issue hooking these mocks into the estimator or want to
 adapt this for other samples (e.g. bulge-dominated galaxies), you can reuse
 the same structure by changing the input maps and the physical parameters.
+```
