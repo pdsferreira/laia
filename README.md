@@ -385,10 +385,6 @@ In practice, tests show that:
 
 ---
 
-
-```
-
-```
 ## What the script laia_maps_alt_it.py does
 
 The key pieces are:
@@ -476,9 +472,9 @@ You are encouraged to adapt this part to your own directory structure and file n
    - `*_g_rot_chi2.fits` – NSIDE = 32 χ² map;  
    - `*_g_rot_iterative_results.fits` – table with one row per NSIDE, including the
      best pixel, χ² value, and θ_IA.
-```
 
-```
+---
+---
 # LAIA Mock Generator 
 
 This script generates mock catalogs of galaxy orientation vectors for testing the
