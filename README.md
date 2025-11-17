@@ -521,10 +521,8 @@ Dependencies:
 
 ## Script overview
 
-Assume the main file is called:
-
 ```text
-dd_mock_generator.py
+mock_generator.py
 ```
 
 It contains the following key pieces:
@@ -598,7 +596,7 @@ The result is `g_lens`, which represents **IA + lensing + measurement error**.
 For each realization `j`, the script writes:
 
 ```text
-dd_simulation_obs_{j}.fits
+simulation_obs_{j}.fits
 ```
 
 with columns:
@@ -674,7 +672,7 @@ After editing the file paths and parameters:
 ```bash
 conda activate laia-mocks
 
-python dd_mock_generator.py
+python mock_generator.py
 ```
 
 You should see a progress bar from `tqdm`:
