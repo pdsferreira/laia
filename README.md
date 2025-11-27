@@ -28,18 +28,11 @@ At a high level, the pipeline does:
    - $E^{a-b}(\hat{\mathbf d}) = E^a - E^b$.
 
 2. **Find the LAIA directions and amplitudes**:
-   - Preferred directions for the individual axes:
-     $\hat{\mathbf d}_{\rm IA}^a = \arg\max E^a$,  
-     $\hat{\mathbf d}_{\rm IA}^b = \arg\max E^b$.
-   - Angular amplitudes $\theta_{\rm IA}^{a,b}$ via the analytic inversion
-     implemented in `recover_alpha`.
+   - Preferred directions for the individual axes (a and b).
+   - Angular amplitudes via the analytic inversion implemented in `recover_alpha`.
 
      Also computes:
    - Spin-2 direction (complex field)
-     $$
-       E(\hat{\mathbf d}) = E^{a-b}(\hat{\mathbf d}) + i\,E^{ab}(\hat{\mathbf d}) \, ,
-     $$
-     and $\hat{\mathbf D}_{\rm IA} = \arg\max_{\hat{\mathbf d}} |E(\hat{\mathbf d})|$.
 
 3. **Correct for PSF leakage**:
    - Fit a complex spin-2 leakage parameter $\eta_c$ and real axis-wise
