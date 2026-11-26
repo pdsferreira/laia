@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use LAIA, please cite both the associated paper and the software version used."
+type: software
+title: "LAIA: Large-Scale Axial Intrinsic Alignment"
+version: 0.2.0
+license: MIT
+doi: "10.5281/zenodo.24500241"
+url: https://github.com/pdsferreira/laia
+repository-code: https://github.com/pdsferreira/laia
+authors:
+  - family-names: da Silveira Ferreira
+    given-names: Pedro
+    orcid: https://orcid.org/0000-0003-4936-0069
+abstract: "Public core axial estimator, minimal signal-injection examples, spatial block bootstrap and optional map-level diagnostics; not the full survey-analysis pipeline."
+keywords:
+  - intrinsic alignment
+  - axial statistics
+  - cosmology
+  - HEALPix
+preferred-citation:
+  type: article
+  title: "Where Galaxies Point: First Measurement of the Large-Scale Axial Intrinsic Alignment"
+  year: 2025
+  url: https://arxiv.org/abs/2511.10005
+  authors:
+    - family-names: da Silveira Ferreira
+      given-names: Pedro
+    - family-names: Oliveira Ramos
+      given-names: Rafael
+    - family-names: Ferreira
+      given-names: Paula S.
+    - family-names: Cortesi
+      given-names: Arianna
+    - family-names: Ferrari
+      given-names: Fabricio
+    - family-names: Marra
+      given-names: Valerio
+    - family-names: Bom
+      given-names: Clécio R.
+    - family-names: Cen
+      given-names: Renyue
